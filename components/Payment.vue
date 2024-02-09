@@ -1,39 +1,92 @@
+/* eslint-disable */
 <script setup>
-import { ref } from 'vue';
+import { onMounted } from "vue";
+const items = ref([]);
+const props = defineProps(['activeTab']);
+const content = [{
+  title: 'We provide services without need to subscribe.',
+},
+
+{
+  title: 'We accept payments in cryptocurrency.',
+},
+{
+  title: 'You get what you pay for.',
+},
+]
+
+for (let i = 0; i < 3; i++) {
+      items.value.push(content[i])
+  }
+
+  
+watch(() => props.activeTab, (newVal) => {
+  items.value = [];
+  if(newVal === 3) {
+    for (let i = 0; i < 3; i++) {
+    setTimeout(() => {
+      items.value.push(content[i]);
+    }, i * 500)
+  }
+  }
+})
+
 
 
 </script>
 
 <template>
-  <div class="content why_content">
+  <section class="content why_content-about-us content_payment">
     
-    <h1 class="main_title main_title-extra"><strong>Payment and Tariffs</strong></h1>
-    <ul class="why_list why_list-faq">
+    <h2>Payment and Tariffs</h2>
+    <TransitionGroup name="list" tag="div" class="why_list why_list-payment" >
+      <article v-for="item in items" class="payment_item" :key="item.title">
+        <p>{{item.title}}</p>
+      </article>
+    </TransitionGroup>
+
+    <Transition>
+      <div v-show="items.length === 3" class="payment-bottom">
+        <div class="title-orange">Only 0.05<small>$</small> for indexing one link.</div>
+        <a class="register_button" href="/auth/register">Register NOW!</a>
+      </div>
+    </Transition>
     
-      <div class="why_list_item">
-
-        <li><strong>We</strong>  provide services without need to subscribe.</li>
-        
-      </div>
-      <div class="why_list_item">
-        <li><strong>We</strong>  accept payments in cryptocurrency.</li>
-        
-      </div>
-
-      <div class="why_list_item">
-
-        <li><strong>You</strong> get what you pay for.</li>
-        
-      </div>
-    </ul>
-     <h3 class="title-orange">Only 0.05<small>$</small> for indexing one link.</h3>
-     <h3 class="title-bonus"><strong>Bonus</strong> for new users - 10 free indexings *</h3>
-     <a class="register_button" href="/register">Register NOW!</a>
-     <h4 class="title-bonus title-bonus-decr">*<a href='/auth/register'>register</a> and write your login in our service to redeem a bonus</h4>
-  </div>
+  </section>
 </template>
 
-<style scoped>
+<style>
+
+.content_payment {
+  display: flex;
+  gap: 24px;
+}
+.payment_item {
+  padding: 12px;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 12px;
+  border-left: 6px solid orange;
+  width: 100%;
+  transition: all 0.5s ease;
+}
+.why_list-payment {
+  list-style-type: none;
+  padding-bottom: 24px;
+}
+.v-enter-active,
+.v-leave-active {
+  transition: opacity 1s ease;
+}
+
+.v-enter-from,
+.v-leave-to {
+  opacity: 0;
+}
+.payment-bottom {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
 a { position: relative;
     color: white;
     cursor: pointer;
@@ -42,6 +95,7 @@ a { position: relative;
 small {
     font-size: 16px;
     font-weight: 900;
+    color: orange;
 }
 .register_button {
     text-decoration: none;
@@ -60,12 +114,13 @@ small {
     color: rgb(255, 178, 70);
     border: 1px solid rgb(190, 190, 190);
   }
-.title-orange {
+.payment-bottom > div {
     color: orange;
     font-size: 32px;
     letter-spacing: 4px;
     text-align: center;
     margin: 0;
+    font-weight: 900;
 }
 
 .title-bonus-decr {
@@ -104,41 +159,71 @@ h3 {
   margin: 0 auto;
 }
 
-@media screen and (max-width: 768px) {
+@media only screen and (max-width: 968px) and (orientation: portrait) {
     .why_list_item {
         z-index: 3;
         margin: 0 auto;
       }
-    .title-orange {
+   .title-orange {
+    padding: 12px 24px;
+   }
+    .payment-bottom > div {
+        font-weight: 900;
         font-size: 18px;
         letter-spacing: 2px;
     }
 
+    .payment-bottom {
+      padding-top: 120px;
+    }
+
     .why_list-faq {
         padding-top: 40px;
-        padding-bottom: 25dvh;
+        padding-bottom: 40px;
       }
-      .title-bonus {
-        font-size: 16px;
-        margin: 0 auto;
-    }
-      .title-bonus-decr {
-        padding-top: 1vh;
-        padding-left: 2vw;
-        font-size: 12px;
-    }
+  
     .register_button {
        margin-top: 12px;
       }
-   
+
+
+      .payment_item {
+        padding: 4px 8px;
+      }
+      
+      .payment_item > p {
+        font-size: 14px;
+      }
     }
 
-    @media screen and (max-width: 1200px) {
+    @media only screen and (max-width: 968px ) and (orientation: landscape) {
+      .payment_item {
+        padding: 4px;
+      }
 
-        .title-bonus {
-            font-weight: 300;
-            margin: 0 auto;
-        }
+      .payment-bottom {
+        padding-top: 0;
+      }
+
+      .payment_item > p {
+        font-size: 14px;
+      }
+
+      div.why_list-payment {
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .payment-bottom > div {
+        font-weight: 900;
+        font-size: 18px;
+        letter-spacing: 2px;
     }
 
+    .content_payment {
+      gap: 4px;
+    }
+
+    }
 </style>

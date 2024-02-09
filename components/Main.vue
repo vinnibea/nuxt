@@ -1,14 +1,14 @@
+/* eslint-disable */
 <template>
-  <div class="content">
-   
-   <div v-if="fade" class="hero">
-    <h1 class="main_title" ><strong>LinkGX</strong> - fast <br />link indexing <br /> service in <br />Google
-    </h1>
-    
-   </div>
+  <section class="content main_content">
+
+    <div class="hero">
+      <h1>LinkGX - fast link indexing service in Google</h1>
+
+    </div>
     <Transition name="fade" mode="out-in">
 
-      <p v-if="fade" class="content_p"><strong>LinkGX</strong> is your reliable assistant for optimizing websites and
+      <p>LinkGX is your reliable assistant for optimizing websites and
         increasing
         their visibility in Google search engine. It is a unique backlink indexing service that will help your projects
         reach their full potential and reach a new level in the web space. </p>
@@ -16,23 +16,13 @@
     </Transition>
 
     <div class="buttons">
-      <a v-if="fade" class="register_button" href="/auth/register">Register NOW!</a>
+      <a class="register_button" href="/auth/register">Register NOW!</a>
     </div>
-  </div>
+  </section>
+  
 </template>
-<script setup>
-import { ref, onMounted } from 'vue';
 
-const fade = ref(false);
-
-onMounted(() => {
-  setTimeout(() => {
-    fade.value = true;
-  }, 700)
-})
-</script>
-<style scoped>
-
+<style>
 .buttons {
   padding: 12px 4px;
   display: flex;
@@ -42,6 +32,7 @@ onMounted(() => {
 .hero {
   padding: 20px;
 }
+
 .fade-enter-active,
 .fade-leave-active {
   transition: opacity 0.5s ease;
@@ -77,7 +68,7 @@ a {
   margin-bottom: 2px;
 }
 
-.content_p {
+.hero~p {
   width: 50%;
   margin: 0px auto;
   background: rgba(0, 0, 0, 0.3);
@@ -86,16 +77,15 @@ a {
   border-left: 6px solid orange;
 }
 
-.content_p strong {
-  font-size: 1rem;
-}
-
-.main_title {
+.hero > h1 {
   font-size: 36px;
-  text-align: right;
+  text-align: center;
   letter-spacing: 4px;
-  align-self: flex-end;
-  padding-left: 200px;
+  margin: 0 auto;
+  max-width: 50vw;
+  padding-bottom: 10vh;
+  padding-top: 10vh;
+  font-weight: 700;
 }
 
 strong {
@@ -104,18 +94,37 @@ strong {
   letter-spacing: 2px;
 }
 
-@media screen and (max-width: 768px) {
+
+@media only screen and (max-width: 960px) and (orientation: landscape) {
+  .hero~p {
+    width: 100%;
+    padding: 8px 12px;
+  }
+
+  .hero > h1 {
+    padding: 0px 12px;
+    margin-top: 2vh;
+    font-size: 18px;
+    text-align: center;
+    max-width: 100vw;
+  }
+}
+
+
+@media only screen and (max-width: 768px) and (orientation: portrait) {
   .hero {
     padding: 0px;
   }
-  .main_title {
-    padding: 20px 40px 0 40px;
-    margin-top: 20px;
+
+  .hero > h1 {
+    padding: 0px 20px 0 12px;
+    margin-top: 2vh;
     font-size: 24px;
     text-align: center;
+    max-width: 100vw;
   }
 
-  .content_p {
+  .hero~p {
     width: 90%;
   }
 
@@ -127,6 +136,42 @@ strong {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 20px;
+    gap: 0px;
   }
-}</style>
+
+  .main_content {
+   gap: 1.4vh;
+  }
+}
+
+
+@media only screen and (max-width: 590px) and (orientation: landscape) {
+  .hero > h1 {
+      font-size: 18px;
+      padding: 0px 12px;
+  }
+
+  .hero {
+    padding: 0;
+  }
+}
+
+@media only screen and (max-width: 320px) and (orientation: portrait) {
+  .hero > h1 {
+      font-size: 16px;
+      padding: 0px 12px;
+  }
+
+  .hero {
+    padding: 0;
+  }
+
+  .hero~p {
+    width: 100%;
+    padding: 8px 12px;
+  }
+}
+
+
+
+</style>
